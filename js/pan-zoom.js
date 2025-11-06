@@ -1,11 +1,12 @@
-$(function () {
-
+(async () => {
     // Initialize all elements with data-pan-zoom="true"
     $('[data-pan-zoom="true"]').each(function () {
-        initPanZoom($(this));
+        let limit = $(this).data('limit');
+        initPanZoom($(this), limit);
     });
 
-    function initPanZoom($editor) {
+    // Init Pan Zoom
+    function initPanZoom($editor, limitMin = false) {
         let $img = $editor.find('img'),
             scale = 1,
             pos = { x: 0, y: 0 },
@@ -17,16 +18,15 @@ $(function () {
             setup();
         });
 
-        if ($img[0].complete) setup(); // in case it's already loaded
+        if ($img[0].complete) setup();
 
+        // Setup on load image
         function setup() {
-            const editorW = $editor.width(),
-                editorH = $editor.height(),
+            const width = $editor.width(),
+                height = $editor.height(),
                 imgW = $img.width(),
-                imgH = $img.height();
-
-            // Compute minimum scale so the image always covers at least the container
-            const minScale = Math.min(editorW / imgW, editorH / imgH);
+                imgH = $img.height(),
+                minScale = Math.min(width / imgW, height / imgH);
 
             // --- Drag to move ---
             $editor.on('mousedown', function (e) {
@@ -54,7 +54,9 @@ $(function () {
                 e.preventDefault();
                 let delta = e.originalEvent.deltaY > 0 ? -0.1 : 0.1;
                 scale += delta;
-                scale = Math.min(Math.max(minScale, scale), 5); // limit zoom
+
+                if (limitMin) scale = Math.min(Math.max(minScale, scale), 5);
+
                 updateTransform();
             });
 
@@ -78,4 +80,4 @@ $(function () {
         }
     }
 
-});
+})();
