@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.heading {
+    text-align: center;
+}
+
+.pan-zoom-wraper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.pan-zoom-wraper .simple-image-editor {
+    width: 200px;
+    height: auto;
+    padding: 10px;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.pan-zoom-wraper .simple-image-editor img {
+    width: 100%;
+    cursor: pointer;
+}
